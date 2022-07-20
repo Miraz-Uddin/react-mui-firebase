@@ -16,14 +16,21 @@ import { AuthContext, AuthProvider } from "./context/Auth.context";
 import Nav from "./Nav";
 import Home from "./public/Home";
 
-const AuthRequired = ({ children }) => {
-  const location = useLocation();
-  const currentUser = useContext(AuthContext);
-  if (currentUser) return children;
-  return <Navigate to="/login" state={{ from: location.pathname }} />;
-};
-
 export default function App() {
+  const AuthRequired = ({ children }) => {
+    const currentUser = useContext(AuthContext);
+    const location = useLocation();
+    if (currentUser) return children;
+    return <Navigate to="/login" state={{ from: location.pathname }} />;
+  };
+
+  const RedirectedIfAuthAvailable = ({ children }) => {
+    const currentUser = useContext(AuthContext);
+    const location = useLocation();
+    if (currentUser)
+      return <Navigate to="/" state={{ from: location.pathname }} />;
+    return children;
+  };
   return (
     <>
       <AuthProvider>
@@ -31,10 +38,40 @@ export default function App() {
           <Nav />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/password/forgot" element={<ForgotPassword />} />
-            <Route path="/password/reset" element={<ResetPassword />} />
+            <Route
+              path="/register"
+              element={
+                <RedirectedIfAuthAvailable>
+                  {" "}
+                  <Register />
+                </RedirectedIfAuthAvailable>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RedirectedIfAuthAvailable>
+                  {" "}
+                  <Login />
+                </RedirectedIfAuthAvailable>
+              }
+            />
+            <Route
+              path="/password/forgot"
+              element={
+                <AuthRequired>
+                  <ForgotPassword />
+                </AuthRequired>
+              }
+            />
+            <Route
+              path="/password/reset"
+              element={
+                <AuthRequired>
+                  <ResetPassword />
+                </AuthRequired>
+              }
+            />
             <Route
               path="/profile"
               element={

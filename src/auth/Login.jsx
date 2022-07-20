@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Link as Navigator, useNavigate } from "react-router-dom";
+import { Link as Navigator, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase.config";
 
 export default function Login() {
@@ -20,11 +20,13 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const location = useLocation();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
-      navigate("/profile");
+      const { state } = location;
+      navigate(state?.from || "/profile");
       setSuccess(true);
     } catch (error) {
       console.log(error.code);
