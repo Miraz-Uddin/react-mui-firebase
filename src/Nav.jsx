@@ -6,12 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { signOut } from "firebase/auth";
-import * as React from "react";
+import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "./context/Auth.context";
 import { auth } from "./utils/firebase.config";
 
 export default function Nav() {
   const navigate = useNavigate();
+  const currentUser = useContext(AuthContext);
   const ActiveBackground = {
     "&.active": { bgcolor: "primary.dark", display: "block" },
   };
@@ -31,48 +33,56 @@ export default function Nav() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Firebase Auth
           </Typography>
-          <Button
-            component={NavLink}
-            to="/register"
-            color="inherit"
-            sx={ActiveBackground}
-          >
-            Register
-          </Button>
-          <Button
-            component={NavLink}
-            to="/login"
-            color="inherit"
-            sx={ActiveBackground}
-          >
-            Login
-          </Button>
-          <Button
-            component={NavLink}
-            to="/profile"
-            color="inherit"
-            sx={ActiveBackground}
-          >
-            Profile
-          </Button>
-          <Button
-            component={NavLink}
-            to="/private"
-            color="inherit"
-            sx={ActiveBackground}
-          >
-            Private
-          </Button>
-          <Button
-            onClick={() => {
-              signOut(auth);
-              navigate("/login");
-            }}
-            color="inherit"
-            sx={ActiveBackground}
-          >
-            Logout
-          </Button>
+          {!currentUser && (
+            <>
+              <Button
+                component={NavLink}
+                to="/register"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Register
+              </Button>
+              <Button
+                component={NavLink}
+                to="/login"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Login
+              </Button>
+            </>
+          )}
+          {currentUser && (
+            <>
+              <Button
+                component={NavLink}
+                to="/profile"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Profile
+              </Button>
+              <Button
+                component={NavLink}
+                to="/private"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Private
+              </Button>
+              <Button
+                onClick={() => {
+                  signOut(auth);
+                  navigate("/login");
+                }}
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
