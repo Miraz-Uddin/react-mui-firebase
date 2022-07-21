@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
+import { auth } from "../utils/firebase.config";
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -32,7 +33,9 @@ export default function ResetPassword() {
       navigate("/login");
       enqueueSnackbar("Password Updated Successfully", { variant: "success" });
     } catch (error) {
-      enqueueSnackbar(error.code.split("/")[1], { variant: "error" });
+      enqueueSnackbar(error.code ? error.code.split("/")[1] : error.message, {
+        variant: "error",
+      });
     }
   };
   const handleChange = (e) => {

@@ -25,11 +25,13 @@ export default function ForgotPassword() {
     try {
       await sendPasswordResetEmail(auth, userInfo.email);
       navigate("/login");
-      enqueueSnackbar("Password Reset Email Sent Successfully", {
+      enqueueSnackbar("Password Reset mail Sent. PLease Check Your E-mail.", {
         variant: "success",
       });
     } catch (error) {
-      enqueueSnackbar(error.code.split("/")[1], { variant: "error" });
+      enqueueSnackbar(error.code ? error.code.split("/")[1] : error.message, {
+        variant: "error",
+      });
     }
   };
   const handleChange = (e) => {

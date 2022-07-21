@@ -39,7 +39,9 @@ export default function Register() {
       setSuccess(true);
       enqueueSnackbar("Registered Successfully", { variant: "success" });
     } catch (error) {
-      enqueueSnackbar(error.code.split("/")[1], { variant: "error" });
+      enqueueSnackbar(error.code ? error.code.split("/")[1] : error.message, {
+        variant: "error",
+      });
     }
   };
   const handleChange = (e) => {
