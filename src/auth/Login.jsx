@@ -100,7 +100,7 @@ export default function Login() {
                   to="/password/forgot"
                   variant="body2"
                 >
-                  Forgot password?
+                  Forgot password? Reset Now
                 </Link>
               </Grid>
               <Grid item>
