@@ -8,7 +8,11 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { Link as Navigator, useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +26,22 @@ export default function Login() {
   });
   const navigate = useNavigate();
   const location = useLocation();
+
+  const googleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const { state } = location;
+      const Provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, Provider);
+      navigate(state?.from || "/profile");
+      enqueueSnackbar("Logged in Successfully", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar(error.code ? error.code.split("/")[1] : error.message, {
+        variant: "error",
+      });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -112,6 +132,15 @@ export default function Login() {
               </Grid>
             </Grid>
           </Box>
+          <Button
+            type="btn"
+            fullWidth
+            onClick={googleSignIn}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign in With GOOGLE
+          </Button>
         </Box>
       </Container>
     </>
