@@ -9,12 +9,13 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { Link as Navigator, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase.config";
 
 export default function Login() {
-  const [success, setSuccess] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -27,10 +28,9 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
       const { state } = location;
       navigate(state?.from || "/profile");
-      setSuccess(true);
+      enqueueSnackbar("Logged in Successfully", { variant: "success" });
     } catch (error) {
-      console.log(error.code);
-      console.log(error.message);
+      enqueueSnackbar(error.code.split("/")[1], { variant: "error" });
     }
   };
   const handleChange = (e) => {

@@ -9,27 +9,27 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { Link as Navigator, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase.config";
 
 export default function ForgotPassword() {
-  const [success, setSuccess] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const [userInfo, setUserInfo] = useState({
     email: "",
   });
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userInfo);
     try {
       await sendPasswordResetEmail(auth, userInfo.email);
       navigate("/login");
-      console.log("Password Reset Email Sent Successfully");
-      setSuccess(true);
+      enqueueSnackbar("Password Reset Email Sent Successfully", {
+        variant: "success",
+      });
     } catch (error) {
-      console.log(error.code);
-      console.log(error.message);
+      enqueueSnackbar(error.code.split("/")[1], { variant: "error" });
     }
   };
   const handleChange = (e) => {
