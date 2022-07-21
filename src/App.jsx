@@ -1,3 +1,5 @@
+import { Fade } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 import React, { useContext } from "react";
 import {
   BrowserRouter,
@@ -33,64 +35,73 @@ export default function App() {
   };
   return (
     <>
-      <AuthProvider>
-        <BrowserRouter>
-          <Nav />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/register"
-              element={
-                <RedirectedIfAuthAvailable>
-                  {" "}
-                  <Register />
-                </RedirectedIfAuthAvailable>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <RedirectedIfAuthAvailable>
-                  {" "}
-                  <Login />
-                </RedirectedIfAuthAvailable>
-              }
-            />
-            <Route
-              path="/password/forgot"
-              element={
-                <AuthRequired>
-                  <ForgotPassword />
-                </AuthRequired>
-              }
-            />
-            <Route
-              path="/password/reset"
-              element={
-                <AuthRequired>
-                  <ResetPassword />
-                </AuthRequired>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <AuthRequired>
-                  <Profile />
-                </AuthRequired>
-              }
-            />
-            <Route
-              path="/private"
-              element={
-                <AuthRequired>
-                  <Private />
-                </AuthRequired>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+      <SnackbarProvider
+        maxSnack={1}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        TransitionComponent={Fade}
+      >
+        <AuthProvider>
+          <BrowserRouter>
+            <Nav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/register"
+                element={
+                  <RedirectedIfAuthAvailable>
+                    {" "}
+                    <Register />
+                  </RedirectedIfAuthAvailable>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <RedirectedIfAuthAvailable>
+                    {" "}
+                    <Login />
+                  </RedirectedIfAuthAvailable>
+                }
+              />
+              <Route
+                path="/password/forgot"
+                element={
+                  <RedirectedIfAuthAvailable>
+                    <ForgotPassword />
+                  </RedirectedIfAuthAvailable>
+                }
+              />
+              <Route
+                path="/password/reset"
+                element={
+                  <RedirectedIfAuthAvailable>
+                    <ResetPassword />
+                  </RedirectedIfAuthAvailable>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <AuthRequired>
+                    <Profile />
+                  </AuthRequired>
+                }
+              />
+              <Route
+                path="/private"
+                element={
+                  <AuthRequired>
+                    <Private />
+                  </AuthRequired>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </SnackbarProvider>
     </>
   );
 }

@@ -9,11 +9,13 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { Link as Navigator, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase.config";
 
 export default function Register() {
+  const { enqueueSnackbar } = useSnackbar();
   const [success, setSuccess] = useState(false);
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -35,8 +37,9 @@ export default function Register() {
       const { state } = location;
       navigate(state?.from || "/profile");
       setSuccess(true);
+      enqueueSnackbar("Registered Successfully", { variant: "success" });
     } catch (error) {
-      console.log(error.code);
+      enqueueSnackbar(error.code, { variant: "error" });
       console.log(error.message);
     }
   };
@@ -50,6 +53,11 @@ export default function Register() {
     <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        {/* {error.status && (
+          <Alert severity="error">
+            <strong>{error.message}</strong>
+          </Alert>
+        )} */}
         <Box
           sx={{
             marginTop: 8,
