@@ -6,14 +6,16 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { signOut } from "firebase/auth";
+import { useSnackbar } from "notistack";
 import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/Auth.context";
 import { auth } from "./utils/firebase.config";
 
 export default function Nav() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const currentUser = useContext(AuthContext);
+  const { currentUser, loading } = useContext(AuthContext);
   const ActiveBackground = {
     "&.active": { bgcolor: "primary.dark", display: "block" },
   };
@@ -75,6 +77,7 @@ export default function Nav() {
                 onClick={() => {
                   signOut(auth);
                   navigate("/login");
+                  enqueueSnackbar("Logging Out ...", { variant: "success" });
                 }}
                 color="inherit"
                 sx={ActiveBackground}
