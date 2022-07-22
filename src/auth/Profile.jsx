@@ -4,10 +4,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/Auth.context";
 export default function Profile() {
-  const user = useContext(AuthContext);
+  const { currentUser, loading } = useContext(AuthContext);
   return (
     <>
-      {user && (
+      {currentUser && (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -19,7 +19,7 @@ export default function Profile() {
             }}
           >
             <h3>Profile Page</h3>
-            <p>{user.email}</p>
+            <p>{currentUser.email}</p>
           </Box>
         </Container>
       )}
