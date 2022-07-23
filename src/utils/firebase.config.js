@@ -3,7 +3,8 @@ import { getAuth } from "firebase/auth";
 // import { getFirestore } from "firebase/firestore";
 // import { doc, getDoc, getFirestore } from "firebase/firestore";
 // import { addDoc, collection, getFirestore } from "firebase/firestore";
-import { doc, getFirestore, updateDoc } from "firebase/firestore";
+// import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtY5MoByr34wbg9M3HE48-YJgkhewFD_c",
@@ -46,12 +47,19 @@ const db = getFirestore(app);
 // }
 
 // Update a Single Document
+// try {
+//   const docRef = doc(db, "blogs", "S20vOKay9KFPlREJRI4w");
+//   await updateDoc(docRef, {
+//     title: "Blog Updated",
+//     "user.name": "Luke HObbs",
+//   });
+// } catch (e) {
+//   console.error("Error Updating document: ", e);
+// }
+
+// Delete a Single Document
 try {
-  const docRef = doc(db, "blogs", "S20vOKay9KFPlREJRI4w");
-  await updateDoc(docRef, {
-    title: "Blog Updated",
-    "user.name": "Luke HObbs",
-  });
+  await deleteDoc(doc(db, "blogs", "A6lXPcBCdVsFt7yT0YwI"));
 } catch (e) {
-  console.error("Error Updating document: ", e);
+  console.error("Error adding document: ", e);
 }
