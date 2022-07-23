@@ -1,10 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 // import { doc, getDoc, getFirestore } from "firebase/firestore";
 // import { addDoc, collection, getFirestore } from "firebase/firestore";
 // import { doc, getFirestore, updateDoc } from "firebase/firestore";
-import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+// import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtY5MoByr34wbg9M3HE48-YJgkhewFD_c",
@@ -58,8 +58,8 @@ const db = getFirestore(app);
 // }
 
 // Delete a Single Document
-try {
-  await deleteDoc(doc(db, "blogs", "A6lXPcBCdVsFt7yT0YwI"));
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
+// try {
+//   await deleteDoc(doc(db, "blogs", "A6lXPcBCdVsFt7yT0YwI"));
+// } catch (e) {
+//   console.error("Error adding document: ", e);
+// }
