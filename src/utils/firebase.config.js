@@ -2,7 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 // import { getFirestore } from "firebase/firestore";
 // import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+// import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { doc, getFirestore, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtY5MoByr34wbg9M3HE48-YJgkhewFD_c",
@@ -30,16 +31,27 @@ const db = getFirestore(app);
 // }
 
 // Add a Single Document
+// try {
+//   const docRef = await addDoc(collection(db, "blogs"), {
+//     description: "This is a Test Blog 4",
+//     title: "Blog 4",
+//     user: {
+//       id: "9f7dCQN4MLSreF6NShw5godG1t03",
+//       name: "Miraz",
+//     },
+//   });
+//   console.log("Document written with ID: ", docRef.id);
+// } catch (e) {
+//   console.error("Error adding document: ", e);
+// }
+
+// Update a Single Document
 try {
-  const docRef = await addDoc(collection(db, "blogs"), {
-    description: "This is a Test Blog 4",
-    title: "Blog 4",
-    user: {
-      id: "9f7dCQN4MLSreF6NShw5godG1t03",
-      name: "Miraz",
-    },
+  const docRef = doc(db, "blogs", "S20vOKay9KFPlREJRI4w");
+  await updateDoc(docRef, {
+    title: "Blog Updated",
+    "user.name": "Luke HObbs",
   });
-  console.log("Document written with ID: ", docRef.id);
 } catch (e) {
-  console.error("Error adding document: ", e);
+  console.error("Error Updating document: ", e);
 }
