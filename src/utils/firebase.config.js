@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+// import { getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtY5MoByr34wbg9M3HE48-YJgkhewFD_c",
@@ -17,3 +18,12 @@ export const auth = getAuth(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+
+// Read a Single Document
+const docRef = doc(db, "blogs", "S20vOKay9KFPlREJRI4w");
+const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+} else {
+  console.log("No such document!");
+}
