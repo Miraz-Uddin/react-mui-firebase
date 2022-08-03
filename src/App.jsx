@@ -17,6 +17,7 @@ import Private from "./auth/Private";
 import Profile from "./auth/Profile";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
+import Blogs from "./blog/Blogs";
 import NotFound from "./components/NotFound";
 import { AuthContext, AuthProvider } from "./context/Auth.context";
 import Nav from "./Nav";
@@ -138,6 +139,7 @@ export default function App() {
                   </AuthRequired>
                 }
               />
+              <Route path="/blogs" element={<Blogs />} />
               <Route
                 path="*"
                 exact={true}
