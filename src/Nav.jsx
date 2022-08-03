@@ -39,6 +39,14 @@ export default function Nav() {
             <>
               <Button
                 component={NavLink}
+                to="/blogs"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Blogs
+              </Button>
+              <Button
+                component={NavLink}
                 to="/register"
                 color="inherit"
                 sx={ActiveBackground}
@@ -57,6 +65,14 @@ export default function Nav() {
           )}
           {currentUser && (
             <>
+              <Button
+                component={NavLink}
+                to="/blogs"
+                color="inherit"
+                sx={ActiveBackground}
+              >
+                Blogs
+              </Button>
               <Button
                 component={NavLink}
                 to="/profile"

@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 // import { collection, query, where, getDocs } from "firebase/firestore";
 import { Grid } from "@mui/material";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
 import { collection, getDocs } from "firebase/firestore";
 import { AuthContext } from "../context/Auth.context";
 import { db } from "../utils/firebase.config";
@@ -34,24 +36,30 @@ export default function Blogs() {
     // Total Blogs When logged in Scope
     return (
       <>
-        <Grid container spacing={0.5}>
-          {blogList.length != 0 &&
-            blogList.map((blog, i) => {
-              return <Blog blog={blog} key={i} />;
-            })}
-        </Grid>
+        <Container component="main">
+          <CssBaseline />
+          <Grid container spacing={0.5} style={{ marginTop: "30px" }}>
+            {blogList.length != 0 &&
+              blogList.map((blog, i) => {
+                return <Blog blog={blog} key={i} />;
+              })}
+          </Grid>
+        </Container>
       </>
     );
   } else {
     // Total Blogs When logged Out Scope
     return (
       <>
-        <Grid container spacing={0.5}>
-          {blogList.length != 0 &&
-            blogList.map((blog, i) => {
-              return <Blog blog={blog} key={i} index={i} />;
-            })}
-        </Grid>
+        <Container component="main">
+          <CssBaseline />
+          <Grid container spacing={0.5} style={{ marginTop: "30px" }}>
+            {blogList.length != 0 &&
+              blogList.map((blog, i) => {
+                return <Blog blog={blog} key={i} index={i} />;
+              })}
+          </Grid>
+        </Container>
       </>
     );
   }

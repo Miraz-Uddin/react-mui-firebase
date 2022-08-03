@@ -6,7 +6,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { red } from "@mui/material/colors";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/Auth.context";
 
 const color = red[500];
 
@@ -20,6 +21,14 @@ const bull = (
 );
 
 export default function Blog({ blog, index }) {
+  const AuthRequired = ({ children }) => {
+    const { currentUser, loading } = useContext(AuthContext);
+    if (loading && currentUser) {
+      return children;
+    } else {
+      return;
+    }
+  };
   const { title, description } = blog;
   return (
     <>
@@ -38,11 +47,13 @@ export default function Blog({ blog, index }) {
             </Typography>
             <Typography variant="body2">{description}</Typography>
           </CardContent>
-          <ButtonGroup variant="text" size="small">
-            <Button color="secondary">View</Button>
-            <Button>Edit</Button>
-            <Button color="error">Delete</Button>
-          </ButtonGroup>
+          <AuthRequired>
+            <ButtonGroup variant="text" size="small">
+              <Button color="secondary">View</Button>
+              <Button>Edit</Button>
+              <Button color="error">Delete</Button>
+            </ButtonGroup>
+          </AuthRequired>
         </Card>
       </Grid>
     </>
