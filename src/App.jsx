@@ -123,7 +123,7 @@ export default function App() {
                   </RedirectedIfAuthAvailable>
                 }
               /> */}
-              <Route path="/password/reset" element={<ResetPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route
                 path="/profile"
                 element={
