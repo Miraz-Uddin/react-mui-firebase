@@ -26,7 +26,7 @@ export default function Blog({ blog, index, setBlog, handleOpen }) {
   // console.log(blog);
 
   useEffect(() => {
-    if (currentUser.uid === userId) {
+    if (currentUser?.uid === userId) {
       setIsOwner(true);
     }
   }, []);
