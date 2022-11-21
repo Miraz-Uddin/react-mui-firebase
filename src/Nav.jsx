@@ -45,19 +45,21 @@ export default function Nav() {
               >
                 Blogs
               </Button>
-              <Button
+              {/* <Button
                 component={NavLink}
                 to="/register"
                 color="inherit"
                 sx={ActiveBackground}
+                state={{ from: location.pathname }}
               >
                 Register
-              </Button>
+              </Button> */}
               <Button
                 component={NavLink}
                 to="/login"
                 color="inherit"
                 sx={ActiveBackground}
+                state={{ from: location.pathname }}
               >
                 Login
               </Button>
