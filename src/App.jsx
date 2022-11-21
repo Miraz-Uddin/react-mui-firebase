@@ -115,15 +115,14 @@ export default function App() {
                   </RedirectedIfAuthAvailable>
                 }
               />
-              {/* <Route
+              <Route
                 path="/password/reset"
                 element={
                   <RedirectedIfAuthAvailable>
                     <ResetPassword />
                   </RedirectedIfAuthAvailable>
                 }
-              /> */}
-              <Route path="/reset-password" element={<ResetPassword />} />
+              />
               <Route
                 path="/profile"
                 element={
