@@ -122,12 +122,12 @@ export default function Login() {
                   to="/password/forgot"
                   variant="body2"
                 >
-                  Forgot password? Reset Now
+                  Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link component={Navigator} to="/register" variant="body2">
-                  Don't have an account? Sign Up
+                  Sign Up Instead
                 </Link>
               </Grid>
             </Grid>
