@@ -13,7 +13,6 @@ import {
 } from "react-router-dom";
 import ForgotPassword from "./auth/ForgotPassword";
 import Login from "./auth/Login";
-import Private from "./auth/Private";
 import Profile from "./auth/Profile";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
@@ -128,14 +127,6 @@ export default function App() {
                 element={
                   <AuthRequired>
                     <Profile />
-                  </AuthRequired>
-                }
-              />
-              <Route
-                path="/private"
-                element={
-                  <AuthRequired>
-                    <Private />
                   </AuthRequired>
                 }
               />

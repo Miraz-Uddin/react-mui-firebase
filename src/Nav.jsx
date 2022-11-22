@@ -1,21 +1,22 @@
-import MenuIcon from "@mui/icons-material/Menu";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import IconButton from "@mui/material/IconButton";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { signOut } from "firebase/auth";
 import { useSnackbar } from "notistack";
 import React, { useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/Auth.context";
 import { auth } from "./utils/firebase.config";
 
 export default function Nav() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const { currentUser, loading } = useContext(AuthContext);
+  const location = useLocation();
+  const { currentUser } = useContext(AuthContext);
   const ActiveBackground = {
     "&.active": { bgcolor: "primary.dark", display: "block" },
   };
@@ -23,7 +24,7 @@ export default function Nav() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -31,7 +32,7 @@ export default function Nav() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Firebase Auth
           </Typography>
@@ -84,17 +85,9 @@ export default function Nav() {
                 Profile
               </Button>
               <Button
-                component={NavLink}
-                to="/private"
-                color="inherit"
-                sx={ActiveBackground}
-              >
-                Private
-              </Button>
-              <Button
                 onClick={() => {
                   signOut(auth);
-                  navigate("/login");
+                  navigate("/login", { state: { from: location.pathname } });
                   enqueueSnackbar("Logging Out ...", { variant: "success" });
                 }}
                 color="inherit"
