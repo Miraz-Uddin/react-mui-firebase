@@ -44,12 +44,8 @@ export default function Blogs() {
       //     newBlogList.push({ ...doc.data(), id: doc.id });
       //   });
       // });
-      // console.log(newBlogList);
       setBlogList(allBlogs);
-    } catch (e) {
-      // console.log(e);
-      // console.log("Error Occured while Blog loading from firestore");
-    }
+    } catch (e) {}
   };
 
   const AuthRequired = ({ children }) => {

@@ -60,7 +60,6 @@ export default function BlogForm({
         setCreatedAt(" ");
       })
       .catch((e) => {
-        console.log(e);
         enqueueSnackbar("New Blog Creation Failed", { variant: "error" });
       });
   };

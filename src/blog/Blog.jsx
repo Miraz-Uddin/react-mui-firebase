@@ -36,9 +36,7 @@ export default function Blog({
           variant: "warning",
         });
       }
-    } catch (error) {
-      // console.log("error");
-    }
+    } catch (error) {}
   };
   return (
     <Grid item xs={6} sm={4} md={4} lg={3}>
