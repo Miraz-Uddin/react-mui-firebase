@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useSnackbar } from "notistack";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Auth.context";
 import { db } from "../utils/firebase.config";
@@ -30,44 +30,43 @@ const style = {
 export default function BlogForm({
   open,
   handleClose,
-  setBlogList,
-  blogList,
-  blog,
+  selectedBlog,
+  isBlogListChanged,
+  setIsBlogListChanged,
 }) {
-  // console.log(blog);
   const { currentUser, loading } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [createdAt, setCreatedAt] = useState(null);
 
-  const [title, setTitle] = useState(blog?.title);
-  const [description, setDescription] = useState(blog?.description);
-  const [userId, setUserId] = useState(blog?.userId);
-  const [createdAt, setCreatedAt] = useState(blog?.createdAt);
-
-  const addBlog = async (data) => {
+  const addBlog = async (newBlog) => {
     const colRef = collection(db, "blogs");
-    enqueueSnackbar("Blog Data Submitted", { variant: "info" });
+    enqueueSnackbar("Blog Data Submitting ...", { variant: "info" });
     handleClose();
     await addDoc(colRef, {
-      ...data,
+      ...newBlog,
     })
-      .then(() => {
+      .then((res) => {
+        setIsBlogListChanged(!isBlogListChanged);
         enqueueSnackbar("New Blog Created Successfully", {
           variant: "success",
         });
-        setBlogList([...blogList, data]);
+        setTitle("Add a Title ...");
+        setDescription("Insert a Description ...");
+        setUserId(" ");
+        setCreatedAt(" ");
       })
       .catch((e) => {
+        console.log(e);
         enqueueSnackbar("New Blog Creation Failed", { variant: "error" });
       });
   };
   const editBlog = async (data, blogId) => {
     const docRef = doc(db, "blogs", blogId);
-    //   await updateDoc(docRef, {
-    //     title: "Blog Updated",
-    //     "user.name": "Luke HObbs",
-    //   });
-    enqueueSnackbar("Blog Data Submitted", { variant: "info" });
+    enqueueSnackbar("Blog Data Submitting ...", { variant: "info" });
     handleClose();
     await updateDoc(docRef, {
       ...data,
@@ -76,17 +75,7 @@ export default function BlogForm({
         enqueueSnackbar("Blog Updated", {
           variant: "success",
         });
-
-        const updatedList = blogList.map((el) => {
-          if (el.id === blogId) {
-            return {
-              ...data,
-            };
-          } else {
-            return el;
-          }
-        });
-        setBlogList([...updatedList]);
+        setIsBlogListChanged(!isBlogListChanged);
       })
       .catch((e) => {
         enqueueSnackbar("Blog Update Failed", { variant: "error" });
@@ -107,14 +96,22 @@ export default function BlogForm({
         variant: "warning",
       });
     } else {
-      if (blog?.id) {
-        const data = {
-          title,
-          description,
-          userId,
-          createdAt,
-        };
-        editBlog(data, blog?.id);
+      if (selectedBlog?.id) {
+        if (currentUser?.uid === userId) {
+          const timeNow = Timestamp.fromDate(new Date());
+          const data = {
+            title,
+            description,
+            userId,
+            createdAt,
+            updatedAt: timeNow,
+          };
+          editBlog(data, selectedBlog?.id);
+        } else {
+          enqueueSnackbar("You are not Authorized to Update this Blog", {
+            variant: "warning",
+          });
+        }
       } else {
         const timeNow = Timestamp.fromDate(new Date());
         let author = "";
@@ -126,11 +123,19 @@ export default function BlogForm({
           description,
           userId: author,
           createdAt: timeNow,
+          updatedAt: timeNow,
         };
         addBlog(data);
       }
     }
   };
+
+  useEffect(() => {
+    setTitle(selectedBlog?.title ?? "Add a Title ...");
+    setDescription(selectedBlog?.description ?? "Insert a Description ...");
+    setUserId(selectedBlog?.userId ?? " ");
+    setCreatedAt(selectedBlog?.createdAt ?? " ");
+  }, [selectedBlog]);
 
   return (
     <div>
@@ -143,7 +148,7 @@ export default function BlogForm({
         <Box sx={style}>
           <form onSubmit={handleSubmit}>
             <Typography sx={{ mb: 3 }} variant="h6" component="h2">
-              Create New Blog
+              {selectedBlog?.id ? "Update" : "Create New"} Blog
             </Typography>
 
             <TextField
@@ -169,7 +174,7 @@ export default function BlogForm({
               sx={{ mt: 2 }}
               type="submit"
             >
-              Submit
+              {selectedBlog?.id ? "Save Changes" : "Create"}
             </Button>
           </form>
         </Box>
